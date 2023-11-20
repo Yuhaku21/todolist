@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <title>To-Do List App</title>
+    <style>
+      body {
+        background-color: #f8f9fa;
+        background: linear-gradient(to right, #ff6b6b, #ffa07a);
+      }
+
+      .container {
+        margin-top: 50px;
+      }
+
+      .completed-task {
+        text-decoration: line-through;
+      }
+      .btn {
+        background: linear-gradient(to right, #ff6b6b, #ffa07a);
+      }
+      .link-challange {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .link {
+        padding: 16px;
+        margin: 10px;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="link-challange mt-5">
+        <button class="link">🎯 Task Challange</button>
+        <button class="link">🥂 Drink Challange</button>
+      </div>
+    </div>
+    <!--Task Challange-->
+    <section id="task-challange">
+      <div class="container">
+        <div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+          <div class="card-body">
+            <div class="container">
+              <h1 class="text-center">🎯</h1>
+              <h3 class="text-center">Get Your Task</h3>
+              <h6 class="text-center mb-4">Kumpulkan hingga 100 task perhari 🔥</h6>
+
+              <!-- Input for Task -->
+              <div class="input-group mb-3">
+                <input type="text" id="taskInput" class="form-control" placeholder="Tambahkan tugas baru" />
+                <div class="input-group-append">
+                  <button class="btn btn-success d-grid gap-2" onclick="addTask()">Tambah</button>
+                </div>
+              </div>
+
+              <!-- Input for Category -->
+              <div class="input-group mb-3">
+                <select class="custom-select" id="taskCategory">
+                  <option value="5">Mudah</option>
+                  <option value="10">Menengah</option>
+                  <option value="20">Sulit</option>
+                </select>
+              </div>
+
+              <ul id="taskList" class="list-group">
+                <!-- List of tasks will appear here -->
+              </ul>
+
+              <div class="mt-3">
+                <h5 id="totalPoints">Total Poin: 0</h5>
+              </div>
+
+              <div class="mt-3">
+                <!-- Tambahkan atribut disabled pada tombol Submit -->
+                <button class="btn btn-success ml-2" onclick="submitPoints()" id="submitButton" disabled>Submit</button>
+              </div>
+
+              <!-- Alert component for success and failure messages -->
+              <div id="alertMessage" class="mt-3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--Task Challange-->
+    <!--Drink Challange-->
+    <section id="drink-challange">
+      <div class="container">
+        <div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+          <div class="card-body">
+            <div class="container">
+              <h1 class="text-center">🥂</h1>
+              <h3 class="text-center">Get Your Drink</h3>
+              <h6 class="text-center mb-4">Ayo minum 2 liter perhari</h6>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
+                <label class="form-check-label" for="flexCheckDefault1"> Minum jam 5 pagi </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2" />
+                <label class="form-check-label" for="flexCheckDefault2"> Minum jam 7 pagi </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3" />
+                <label class="form-check-label" for="flexCheckDefault3"> Minum jam 9 pagi </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault4" />
+                <label class="form-check-label" for="flexCheckDefault4"> Minum jam 11 pagi </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault5" />
+                <label class="form-check-label" for="flexCheckDefault5"> Minum jam 1 siang </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault6" />
+                <label class="form-check-label" for="flexCheckDefault6"> Minum jam 3 siang </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault7" />
+                <label class="form-check-label" for="flexCheckDefault7"> Minum jam 5 sore </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault8" />
+                <label class="form-check-label" for="flexCheckDefault8"> Minum jam 7 malam </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault9" />
+                <label class="form-check-label" for="flexCheckDefault9"> Minum jam 9 malam </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault10" />
+                <label class="form-check-label" for="flexCheckDefault10"> Minum jam 10 malam </label>
+              </div>
+              <div class="mt-3">
+                <button class="btn btn-success ml-2" onclick="selesaikan()" id="selesaikan" disabled>Selesaikan</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--Drink Challange-->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      // Load saved tasks from local storage
+      let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+      let totalPoints = 0;
+
+      // Render tasks when the page loads
+      renderTasks();
+
+      function renderTasks() {
+        const taskList = document.getElementById("taskList");
+        taskList.innerHTML = "";
+
+        // Urutkan tasks berdasarkan kategori (mudah, menengah, sulit)
+        tasks.sort((a, b) => a.points - b.points);
+
+        tasks.forEach((task, index) => {
+          const listItem = document.createElement("li");
+          listItem.className = "list-group-item d-flex justify-content-between align-items-center";
+          listItem.innerHTML = `
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="taskCheckbox${index}" ${task.completed ? "checked" : ""} onchange="toggleTaskCompletion(${index})">
+            <label class="custom-control-label ${task.completed ? "completed-task" : ""}" for="taskCheckbox${index}">
+              ${task.text} (${task.category})
+            </label>
+          </div>
+          <span class="badge badge-primary badge-pill">${task.points}</span>
+          <button type="button" class="btn btn-danger btn-sm" onclick="deleteTask(${index})">Hapus</button>
+        `;
+          taskList.appendChild(listItem);
+        });
+
+        updateTotalPoints();
+      }
+
+      function addTask() {
+        const taskInput = document.getElementById("taskInput");
+        const taskText = taskInput.value.trim();
+        const taskCategory = document.getElementById("taskCategory").value;
+
+        if (taskText !== "") {
+          const task = {
+            text: taskText,
+            points: parseInt(taskCategory),
+            category: getCategoryLabel(parseInt(taskCategory)),
+            completed: false,
+          };
+
+          tasks.push(task);
+          taskInput.value = "";
+          renderTasks();
+          // Save tasks to local storage
+          saveTasksToLocalStorage();
+        }
+      }
+
+      function deleteTask(index) {
+        totalPoints -= tasks[index].points;
+        tasks.splice(index, 1);
+        renderTasks();
+        // Save tasks to local storage
+        saveTasksToLocalStorage();
+      }
+
+      function getCategoryLabel(categoryPoints) {
+        if (categoryPoints === 5) {
+          return "Mudah";
+        } else if (categoryPoints === 10) {
+          return "Menengah";
+        } else if (categoryPoints === 20) {
+          return "Sulit";
+        }
+      }
+
+      function toggleTaskCompletion(index) {
+        tasks[index].completed = !tasks[index].completed;
+        renderTasks();
+        updateCompletionTable();
+        // Save tasks to local storage
+        saveTasksToLocalStorage();
+      }
+
+      function updateTotalPoints() {
+        totalPoints = tasks.reduce((sum, task) => sum + task.points, 0);
+        const totalPointsElement = document.getElementById("totalPoints");
+        totalPointsElement.textContent = `Total Poin: ${totalPoints}`;
+
+        // Aktifkan atau nonaktifkan tombol Submit berdasarkan apakah ada task yang belum dichecklist
+        const submitButton = document.getElementById("submitButton");
+        submitButton.disabled = tasks.some((task) => !task.completed);
+      }
+
+      function showAlert(message, alertType) {
+        const alertMessage = document.getElementById("alertMessage");
+        alertMessage.innerHTML = `
+        <div class="alert alert-${alertType} alert-dismissible fade show" role="alert">
+          ${message}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      `;
+      }
+
+      function submitPoints() {
+        const uncheckedTasks = tasks.filter((task) => !task.completed);
+
+        if (uncheckedTasks.length === 0) {
+          if (totalPoints >= 100) {
+            showAlert("Yeay, Kamu sudah mengumpulkan 100 point untuk hari ini!", "success");
+            updateCompletionTable();
+          } else {
+            showAlert("Yah, kamu gagal mengumpulkan pointmu untuk hari ini.", "danger");
+          }
+        } else {
+          showAlert("Harap checklist semua task sebelum menekan tombol Submit.", "warning");
+        }
+      }
+
+      function updateCompletionTable() {
+        // You can add code here to update the completion table if needed.
+        // This function is currently empty since the table has been removed.
+      }
+
+      // Fungsi untuk menyimpan tasks ke local storage
+      function saveTasksToLocalStorage() {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        const taskChallangeButton = document.querySelector(".link-challange button:nth-child(1)");
+        const drinkChallangeButton = document.querySelector(".link-challange button:nth-child(2)");
+        const taskChallangeSection = document.getElementById("task-challange");
+        const drinkChallangeSection = document.getElementById("drink-challange");
+
+        // Sembunyikan bagian Drink Challange saat halaman dimuat
+        drinkChallangeSection.style.display = "none";
+
+        // Tambahkan event listener untuk tombol Task Challange
+        taskChallangeButton.addEventListener("click", function () {
+          taskChallangeSection.style.display = "block";
+          drinkChallangeSection.style.display = "none";
+        });
+
+        // Tambahkan event listener untuk tombol Drink Challange
+        drinkChallangeButton.addEventListener("click", function () {
+          taskChallangeSection.style.display = "none";
+          drinkChallangeSection.style.display = "block";
+        });
+      });
+      //Untuk Drink Challange
+      // Load saved progress from local storage
+      const savedProgress = JSON.parse(localStorage.getItem("drinkProgress")) || {};
+
+      // Update checkboxes based on saved progress
+      for (const key in savedProgress) {
+        if (savedProgress[key]) {
+          document.getElementById(key).checked = true;
+        }
+      }
+
+      // Add event listeners to checkboxes
+      const checkboxes = document.querySelectorAll(".form-check-input");
+      checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", updateProgress);
+      });
+
+      // Update the "Selesaikan" button based on saved progress
+      updateSelesaiButton();
+
+      function updateProgress() {
+        const progress = {};
+        checkboxes.forEach((checkbox) => {
+          progress[checkbox.id] = checkbox.checked;
+        });
+
+        // Save progress to local storage
+        localStorage.setItem("drinkProgress", JSON.stringify(progress));
+
+        // Update the "Selesaikan" button based on the current progress
+        updateSelesaiButton();
+      }
+
+      function updateSelesaiButton() {
+        const isCompleted = Array.from(checkboxes).every((checkbox) => checkbox.checked);
+        document.getElementById("selesaikan").disabled = !isCompleted;
+      }
+
+      function selesaikan() {
+        // Reset progress and refresh the page
+        localStorage.removeItem("drinkProgress");
+        location.reload();
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        // Load saved progress from local storage
+        const savedProgress = JSON.parse(localStorage.getItem("drinkProgress")) || {};
+
+        // Update checkboxes based on saved progress
+        for (const key in savedProgress) {
+          if (savedProgress[key]) {
+            document.getElementById(key).checked = true;
+            toggleLabelStrikeThrough(key, true);
+          }
+        }
+
+        // Add event listeners to checkboxes
+        const checkboxes = document.querySelectorAll(".form-check-input");
+        checkboxes.forEach((checkbox) => {
+          checkbox.addEventListener("change", updateProgress);
+        });
+
+        // Update the "Selesaikan" button based on saved progress
+        updateSelesaiButton();
+
+        function updateProgress(event) {
+          const checkbox = event.target;
+          toggleLabelStrikeThrough(checkbox.id, checkbox.checked);
+
+          const progress = {};
+          checkboxes.forEach((cb) => {
+            progress[cb.id] = cb.checked;
+          });
+
+          // Save progress to local storage
+          localStorage.setItem("drinkProgress", JSON.stringify(progress));
+
+          // Update the "Selesaikan" button based on the current progress
+          updateSelesaiButton();
+        }
+
+        function toggleLabelStrikeThrough(id, isChecked) {
+          const label = document.querySelector(`[for="${id}"]`);
+          if (label) {
+            label.classList.toggle("completed-task", isChecked);
+          }
+        }
+
+        function updateSelesaiButton() {
+          const isCompleted = Array.from(checkboxes).every((checkbox) => checkbox.checked);
+          document.getElementById("selesaikan").disabled = !isCompleted;
+        }
+
+        function selesaikan() {
+          // Reset progress and refresh the page
+          localStorage.removeItem("drinkProgress");
+          location.reload();
+        }
+      });
+    </script>
+  </body>
+</html>
