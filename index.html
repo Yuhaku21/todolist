@@ -395,6 +395,31 @@
           location.reload();
         }
       });
+      document.addEventListener("DOMContentLoaded", function () {
+        // ... (kode sebelumnya tetap sama) ...
+
+        // Tambahkan fungsi untuk mengatur reminder setiap 2 menit
+        setInterval(function () {
+          showReminderNotification();
+        }, 2 * 60 * 1000); // Setiap 2 menit (dalam milidetik)
+
+        function showReminderNotification() {
+          // Cek apakah browser mendukung API Notification
+          if ("Notification" in window) {
+            // Minta izin pengguna untuk menampilkan notifikasi
+            Notification.requestPermission().then(function (permission) {
+              if (permission === "granted") {
+                // Tampilkan notifikasi
+                const notification = new Notification("Reminder", {
+                  body: "Waktunya untuk menyelesaikan tugas atau minum!",
+                });
+              }
+            });
+          }
+        }
+
+        // ... (kode sebelumnya tetap sama) ...
+      });
     </script>
   </body>
 </html>
