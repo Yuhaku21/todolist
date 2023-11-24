@@ -12,7 +12,7 @@
       }
 
       .container {
-        margin-top: 50px;
+        margin-top: 30px;
       }
 
       .completed-task {
@@ -31,13 +31,31 @@
         margin: 10px;
         border-radius: 8px;
       }
+      #timerDisplay {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 30px;
+      }
+      .hitung-mundur {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     </style>
   </head>
   <body>
+    <!--AwalText-->
     <div class="container">
-      <div class="link-challange mt-5">
+      <div class="link-challange">
         <button class="link">🎯 Task Challange</button>
         <button class="link">🥂 Drink Challange</button>
+      </div>
+    </div>
+    <div class="container">
+      <div class="link-challange" style="margin-top: -40px">
+        <button id="sportChallangeButton" class="link">🏃‍♀️ Run Challange</button>
+        <button id="focusChallangeButton" class="link">🔥 Time Challange</button>
       </div>
     </div>
     <!--Task Challange-->
@@ -146,10 +164,217 @@
       </div>
     </section>
     <!--Drink Challange-->
+    <!--Exercise Challange-->
+    <section id="sport-challange" style="display: none">
+      <div class="container">
+        <div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+          <div class="card-body">
+            <div class="container">
+              <h1 class="text-center">🏃‍♂️</h1>
+              <h3 class="text-center">Get Your Exercise</h3>
+              <h6 class="text-center mb-4">Jangan lupa untuk berolahraga</h6>
+              <div style="display: flex; justify-content: center; align-items: center">
+                <p id="countdown"></p>
+              </div>
+              <div class="mt-3" style="display: flex; justify-content: center; align-items: center">
+                <button class="btn btn-success ml-2" onclick="startCountdown()" id="berlari">Mulai Berolahraga</button>
+              </div>
+              <audio id="bellAudio" src="alarm.mp3" type="audio/mp3"></audio>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--Exercise Challange-->
+    <!--Exercise Challange-->
+    <section id="fokus-challange" style="display: none">
+      <div class="container">
+        <div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+          <div class="card-body">
+            <div class="container">
+              <h1 class="text-center">⏳</h1>
+              <h3 class="text-center">Get Your Focus</h3>
+              <h6 class="text-center mb-4">Fitur yang dapat membantumu agar lebih fokus</h6>
+              <label for="timerInput">Set Timer (seconds): </label> <br />
+              <input style="padding: 10px; border-radius: 4px; margin-top: 10px; width: 150px" type="number" id="timerInput" min="1" placeholder="Enter seconds" /> <br />
+              <button onclick="startTimer()" class="btn" style="color: white; margin-top: 20px">Start Timer</button>
+              <div id="timerDisplay"><h4></h4></div>
+              <audio id="bellSound" src="alarm.mp3"></audio>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--Exercise Challange-->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+      //Run Challange
+      function startCountdown() {
+        // Waktu awal dalam detik (1 jam = 3600 detik)
+        var startTime = 3600;
+
+        // Perbarui waktu setiap detik
+        var countdownInterval = setInterval(function () {
+          var minutes = Math.floor(startTime / 60);
+          var seconds = startTime % 60;
+
+          // Format menit dan detik agar selalu dua digit
+          var formattedTime = padNumber(minutes) + ":" + padNumber(seconds);
+
+          // Tampilkan waktu pada elemen dengan id "countdown"
+          document.getElementById("countdown").innerHTML = formattedTime;
+
+          // Kurangi waktu
+          startTime--;
+
+          // Hentikan perhitungan mundur jika waktu habis
+          if (startTime < 0) {
+            clearInterval(countdownInterval);
+            document.getElementById("countdown").innerHTML = "Waktu Habis!";
+          }
+        }, 1000); // Perbarui setiap 1 detik
+      }
+
+      // Fungsi untuk menambahkan nol di depan angka jika hanya satu digit
+      function padNumber(number) {
+        return (number < 10 ? "0" : "") + number;
+      }
+      // Mengecek apakah ada progress waktu yang tersimpan di localStorage
+      var savedTime = localStorage.getItem("savedTime");
+      if (savedTime !== null) {
+        startCountdown(savedTime);
+      }
+
+      function startCountdown(savedTime) {
+        // Waktu awal dalam detik (1 jam = 3600 detik)
+        var startTime = savedTime || 3600;
+
+        // Perbarui waktu setiap detik
+        var countdownInterval = setInterval(function () {
+          var minutes = Math.floor(startTime / 60);
+          var seconds = startTime % 60;
+
+          // Format menit dan detik agar selalu dua digit
+          var formattedTime = padNumber(minutes) + ":" + padNumber(seconds);
+
+          // Tampilkan waktu pada elemen dengan id "countdown"
+          document.getElementById("countdown").innerHTML = formattedTime;
+
+          // Kurangi waktu
+          startTime--;
+
+          // Hentikan perhitungan mundur jika waktu habis
+          if (startTime < 0) {
+            clearInterval(countdownInterval);
+            document.getElementById("countdown").innerHTML = "Waktu Habis!";
+            // Putar bunyi alarm
+            document.getElementById("bellAudio").play();
+          }
+
+          // Simpan progress waktu ke localStorage
+          localStorage.setItem("savedTime", startTime);
+        }, 1000); // Perbarui setiap 1 detik
+      }
+
+      // Fungsi untuk menambahkan nol di depan angka jika hanya satu digit
+      function padNumber(number) {
+        return (number < 10 ? "0" : "") + number;
+      }
+      //Run Challange
+      //Fokus Challange
+      let timer;
+
+      function startTimer() {
+        // Ambil nilai input timer
+        const timerInput = document.getElementById("timerInput").value;
+        const timerDisplay = document.getElementById("timerDisplay");
+
+        // Validasi input
+        if (!timerInput || timerInput <= 0) {
+          alert("Please enter a valid timer value.");
+          return;
+        }
+
+        // Mulai timer
+        let seconds = timerInput;
+        timerDisplay.innerHTML = formatTime(seconds);
+
+        timer = setInterval(function () {
+          seconds--;
+
+          if (seconds < 0) {
+            clearInterval(timer);
+            timerDisplay.innerHTML = "Time's up!";
+            playBellSound();
+          } else {
+            timerDisplay.innerHTML = formatTime(seconds);
+          }
+        }, 1000);
+      }
+
+      function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+
+        return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+      }
+
+      function playBellSound() {
+        const bellSound = document.getElementById("bellSound");
+        bellSound.play();
+      }
+      //Fokus Challange
+      //Exercise Challange
+      document.addEventListener("DOMContentLoaded", function () {
+        const taskChallangeButton = document.querySelector(".link-challange button:nth-child(1)");
+        const drinkChallangeButton = document.querySelector(".link-challange button:nth-child(2)");
+        const sportChallangeButton = document.getElementById("sportChallangeButton");
+        const focusChallangeButton = document.getElementById("focusChallangeButton"); // Tambahkan baris ini
+        const taskChallangeSection = document.getElementById("task-challange");
+        const drinkChallangeSection = document.getElementById("drink-challange");
+        const sportChallangeSection = document.getElementById("sport-challange");
+        const focusChallangeSection = document.getElementById("fokus-challange"); // Tambahkan baris ini
+
+        // Sembunyikan bagian-bagian saat halaman dimuat
+        drinkChallangeSection.style.display = "none";
+        sportChallangeSection.style.display = "none";
+        focusChallangeSection.style.display = "none"; // Tambahkan baris ini
+
+        // Tambahkan event listener untuk tombol "🔥 Fokus Challange"
+        focusChallangeButton.addEventListener("click", function () {
+          taskChallangeSection.style.display = "none";
+          drinkChallangeSection.style.display = "none";
+          sportChallangeSection.style.display = "none";
+          focusChallangeSection.style.display = "block"; // Tampilkan bagian "Fokus Challange"
+        });
+
+        // Tambahkan event listener untuk tombol "🥊 Sport Challange"
+        sportChallangeButton.addEventListener("click", function () {
+          taskChallangeSection.style.display = "none";
+          drinkChallangeSection.style.display = "none";
+          sportChallangeSection.style.display = "block"; // Tampilkan bagian "Sport Challange"
+          focusChallangeSection.style.display = "none";
+        });
+
+        // Tambahkan event listener untuk tombol "🎯 Task Challange"
+        taskChallangeButton.addEventListener("click", function () {
+          taskChallangeSection.style.display = "block";
+          drinkChallangeSection.style.display = "none";
+          sportChallangeSection.style.display = "none";
+          focusChallangeSection.style.display = "none";
+        });
+
+        // Tambahkan event listener untuk tombol "🥂 Drink Challange"
+        drinkChallangeButton.addEventListener("click", function () {
+          taskChallangeSection.style.display = "none";
+          drinkChallangeSection.style.display = "block"; // Tampilkan bagian "Drink Challange"
+          sportChallangeSection.style.display = "none";
+          focusChallangeSection.style.display = "none";
+        });
+      });
+      //Exercise Challange
       // Load saved tasks from local storage
       let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
       let totalPoints = 0;
@@ -394,31 +619,6 @@
           localStorage.removeItem("drinkProgress");
           location.reload();
         }
-      });
-      document.addEventListener("DOMContentLoaded", function () {
-        // ... (kode sebelumnya tetap sama) ...
-
-        // Tambahkan fungsi untuk mengatur reminder setiap 2 menit
-        setInterval(function () {
-          showReminderNotification();
-        }, 2 * 60 * 1000); // Setiap 2 menit (dalam milidetik)
-
-        function showReminderNotification() {
-          // Cek apakah browser mendukung API Notification
-          if ("Notification" in window) {
-            // Minta izin pengguna untuk menampilkan notifikasi
-            Notification.requestPermission().then(function (permission) {
-              if (permission === "granted") {
-                // Tampilkan notifikasi
-                const notification = new Notification("Reminder", {
-                  body: "Waktunya untuk menyelesaikan tugas atau minum!",
-                });
-              }
-            });
-          }
-        }
-
-        // ... (kode sebelumnya tetap sama) ...
       });
     </script>
   </body>
